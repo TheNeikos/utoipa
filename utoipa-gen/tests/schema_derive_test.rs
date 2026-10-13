@@ -3332,3 +3332,25 @@ fn test_new_type_struct_pattern() {
 
     assert_json_snapshot!(value);
 }
+
+#[test]
+fn derive_struct_with_qualified_associated_type() {
+    trait Dummy {
+        type T;
+    }
+
+    #[derive(ToSchema)]
+    #[allow(unused)]
+    struct Foo {
+        a: <Self as Dummy>::T,
+        b: Vec<<Foo as Dummy>::T>,
+    }
+
+    impl Dummy for Foo {
+        type T = String;
+    }
+
+    let schema = serde_json::to_value(<Foo as utoipa::PartialSchema>::schema()).unwrap();
+
+    assert_json_snapshot!(schema);
+}
