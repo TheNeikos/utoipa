@@ -118,6 +118,7 @@ impl ExtSchema<'_> {
                     generic_type: Some(crate::component::GenericType::Option),
                     value_type: crate::component::ValueType::Object,
                     span: Some(path.span()),
+                    qself: None,
                     path,
                 })
             } else {
