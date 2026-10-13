@@ -1,0 +1,22 @@
+---
+source: utoipa-gen/tests/schema_derive_test.rs
+expression: schema
+---
+{
+  "properties": {
+    "a": {
+      "$ref": "#/components/schemas/String"
+    },
+    "b": {
+      "items": {
+        "$ref": "#/components/schemas/String"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "a",
+    "b"
+  ],
+  "type": "object"
+}

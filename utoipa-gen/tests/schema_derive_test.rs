@@ -3762,3 +3762,25 @@ fn derive_struct_with_field_rename_expr() {
 
     assert_json_snapshot!(schema);
 }
+
+#[test]
+fn derive_struct_with_qualified_associated_type() {
+    trait Dummy {
+        type T;
+    }
+
+    #[derive(ToSchema)]
+    #[allow(unused)]
+    struct Foo {
+        a: <Self as Dummy>::T,
+        b: Vec<<Foo as Dummy>::T>,
+    }
+
+    impl Dummy for Foo {
+        type T = String;
+    }
+
+    let schema = serde_json::to_value(<Foo as utoipa::PartialSchema>::schema()).unwrap();
+
+    assert_json_snapshot!(schema);
+}
